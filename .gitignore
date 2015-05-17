@@ -1,0 +1,11 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/node_modules
+npm-debug.log
+
+/logs
+wear/models/moto-360-2.psd

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Settings</string>
+    <string name="intro">Hi! This app will help you to stop biting your nails,
+    touching your face or playing with your hair.</string>
+    <string name="intro_calibrate">First we have to remember your arm position. Hit the calibrate
+    button on your wearable device and then wait until you feel it vibrate.</string>
+    <string name="timeout">You will be alerted if your arm is in this position for 3 seconds</string>
+    <string name="calibrate_text"><Data><![CDATA[ <b><font color=#cc0029>START</font> CALIBRATION</b> ]]> </Data></string>
+    <string name="three_dots">• • •</string>
+    <string name="wear_connected">android wear connected</string>
+    <string name="wear_disconnected">android ear disconnected</string>
+
+        <string name="app_name">HabitKick</string>
+        <string name="app_name_first">Habit</string>
+        <string name="app_name_second">Kick</string>
+
+        <!-- icons -->
+        <string name="icon_menu"></string>
+        <string name="icon_left">◀</string>
+        <string name="icon_right">▶</string>
+        <string name="icon_lasttime"></string>
+        <string name="icon_home"></string>
+        <string name="icon_pause"></string>
+        <string name="icon_silent"></string>
+        <string name="icon_calibrate"></string>
+        <string name="icon_info"></string>
+        <string name="icon_mobile"></string>
+        <string name="icon_logo"></string>
+
+</resources>

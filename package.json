@@ -1,0 +1,30 @@
+{
+  "name": "HabitKick",
+  "description": "We are all human",
+  "version": "1.0.0",
+  "homepage": "https://habitkick.herokuapp.com",
+  "keywords": [],
+  "author": {
+    "name": "Mathew Kurian",
+    "email": "MathewKurian@utexas.edu",
+    "url": "https://github.com/bluejamesbond"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mwkurian/HabitKick.git"
+  },
+  "main": "web/app.js",
+  "directories": {
+    "test": "test"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "callsite": "^1.0.0",
+    "colors": "^1.0.0",
+    "express": "^4.0.0",
+    "mkdirp": "^0.5.0",
+    "moment": "^2.8.0",
+    "scribe-js": "^2.0.2"
+  },
+  "readmeFilename": "README.md"
+}
