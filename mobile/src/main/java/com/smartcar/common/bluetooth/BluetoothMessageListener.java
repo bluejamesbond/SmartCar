@@ -6,7 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class BluetoothMessageListener implements Runnable {
+public class BluetoothMessageListener implements Runnable {
 
     private BluetoothSocket socket;
     private IBluetoothMessageHandler messageHandler;

@@ -1,11 +1,18 @@
 package com.smartcar.common.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * Created by Mathew on 5/17/2015.
@@ -16,6 +23,7 @@ public class Bluetooth {
     private BluetoothMessageListener messageListener;
     private IBluetoothDiscoverHandler discoverHandler;
     private IBluetoothPairHandler pairHandler;
+    private Thread discoverThread;
 
     public Bluetooth(Context context) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -67,17 +75,45 @@ public class Bluetooth {
     }
 
     public void startDiscovering(final IBluetoothDiscoverHandler discoverHandler) {
-        bluetoothAdapter.startDiscovery();
+        if(discoverThread == null) {
+            discoverThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Timer timer = new Timer();
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            bluetoothAdapter.cancelDiscovery();
+                            bluetoothAdapter.startDiscovery();
+                        }
+                    }, 0, 40000);
+                }
+            });
+
+            discoverThread.start();
+        }
 
     }
 
     public void cancelDiscovering() {
+        if(discoverThread != null){
+            discoverThread.interrupt();
+            discoverThread = null;
+        }
+
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
         }
     }
 
-    public void startListening() {
-        messageListener = new BluetoothMessageListener(bluetoothAdapter);
+    public void startListening(BluetoothDevice device) {
+        try {
+            BluetoothSocket socket;
+            socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+            socket.connect();
+            messageListener = new BluetoothMessageListener(socket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
