@@ -65,7 +65,9 @@ public abstract class ListenerService extends Service implements IBluetoothMessa
     }
 
     protected void sendMessage(MessageId id, String msg) {
-        getActivity().sendMessage(id, msg);
+        if(getActivity() != null){
+            getActivity().sendMessage(id, msg);
+        }
     }
 
     public void startActivity(Class actvity) {

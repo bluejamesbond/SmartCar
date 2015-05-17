@@ -9,12 +9,12 @@
     <string name="timeout">You will be alerted if your arm is in this position for 3 seconds</string>
     <string name="calibrate_text"><Data><![CDATA[ <b><font color=#cc0029>START</font> CALIBRATION</b> ]]> </Data></string>
     <string name="three_dots">• • •</string>
-    <string name="wear_connected">android wear connected</string>
-    <string name="wear_disconnected">android ear disconnected</string>
+    <string name="ble_connected">bluetooth connected</string>
+    <string name="ble_disconnected">bluetooth disconnected</string>
 
-    <string name="app_name">HabitKick</string>
-    <string name="app_name_first">Habit</string>
-    <string name="app_name_second">Kick</string>
+    <string name="app_name">SmartCar</string>
+    <string name="app_name_first">Smart</string>
+    <string name="app_name_second">Car</string>
 
     <!-- icons -->
     <string name="icon_menu"></string>

@@ -14,6 +14,8 @@ import com.smartcar.core.SmartCarActivity;
 
 public class StartActivity extends SmartCarActivity {
 
+    Object res;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -47,23 +49,13 @@ public class StartActivity extends SmartCarActivity {
     @Override
     protected void onThemeChange(final int appColor, final float hue) {
         super.onThemeChange(appColor, hue);
+
         _runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ((TextView) findViewById(R.id.tagline)).setTextColor(appColor);
                 ((HueShiftImageView) findViewById(R.id.logo)).shiftHue(hue);
                 findViewById(R.id.calibrate_button).setBackground(createBigButtonStateList(appColor));
-            }
-        });
-    }
-
-    @Override
-    protected void onConnectionChange(final boolean connected) {
-        super.onConnectionChange(connected);
-        _runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateConnectionStatus(connected);
             }
         });
     }
