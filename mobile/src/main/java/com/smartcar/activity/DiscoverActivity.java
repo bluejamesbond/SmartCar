@@ -52,4 +52,9 @@ public class DiscoverActivity extends SmartCarActivity {
     protected int getContentViewId() {
         return R.layout.discover_activity;
     }
+
+    @Override
+    public void onMessageReceived(MessageId id, String message) {
+
+    }
 }

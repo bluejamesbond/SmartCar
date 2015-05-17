@@ -66,10 +66,15 @@ public class StartActivity extends SmartCarActivity {
     }
 
     protected void updateConnectionStatus(boolean status) {
-        ((TextView) findViewById(R.id.connection_status)).setText(getResources().getText(status ? R.string.wear_connected : R.string.wear_disconnected));
+        ((TextView) findViewById(R.id.connection_status)).setText(getResources().getText(status ? R.string.ble_connected : R.string.ble_disconnected));
     }
 
     public void setNextPositionEnabled(final Activity activity, final boolean enable) {
         //    activity.findViewById(R.id.calibrate_next_button).setEnabled(enable)
+    }
+
+    @Override
+    public void onMessageReceived(MessageId id, String message) {
+
     }
 }

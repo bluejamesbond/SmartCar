@@ -55,7 +55,6 @@ public class SmartCarListenerService extends ListenerService {
 
                 if (remoteAddr.length() != 0 && device == null) {
                     bluetooth.connect(device);
-                    bluetooth.listen();
                     bluetooth.sendMessage(MessageId.OPEN_DOOR, "strsfsfs");
                     bluetooth.sendMessage(MessageId.OPEN_DOOR);
                 }
