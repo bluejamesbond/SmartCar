@@ -9,7 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import com.smartcar.common.ListenerService;
+
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -21,12 +25,18 @@ public class Bluetooth {
 
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothMessageListener messageListener;
-    private IBluetoothDiscoverHandler discoverHandler;
-    private IBluetoothPairHandler pairHandler;
+    //private IBluetoothDiscoverHandler discoverHandler;
+    //private IBluetoothPairHandler pairHandler;
     private Thread discoverThread;
+    private Set<IBluetoothDiscoverHandler> discoverHandlers;
+    private Set<IBluetoothMessageHandler> messageHandlers;
+    private Set<IBluetoothPairHandler> pairHandlers;
 
     public Bluetooth(Context context) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        discoverHandlers = new HashSet<IBluetoothDiscoverHandler>();
+        messageHandlers = new HashSet<IBluetoothMessageHandler>();
+        pairHandlers = new HashSet<IBluetoothPairHandler>();
 
         context.registerReceiver(new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
@@ -44,22 +54,6 @@ public class Bluetooth {
                 }
             }
         }, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-    }
-
-    public IBluetoothPairHandler getPairHandler() {
-        return pairHandler;
-    }
-
-    public void setPairHandler(IBluetoothPairHandler pairHandler) {
-        this.pairHandler = pairHandler;
-    }
-
-    public IBluetoothDiscoverHandler getDiscoverHandler() {
-        return discoverHandler;
-    }
-
-    public void setDiscoverHandler(IBluetoothDiscoverHandler discoverHandler) {
-        this.discoverHandler = discoverHandler;
     }
 
     public IBluetoothMessageHandler getMessageHandler() {
@@ -115,5 +109,29 @@ public class Bluetooth {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addMessageHandler(IBluetoothMessageHandler handler) {
+        messageHandlers.add(handler);
+    }
+
+    public void addDiscoverHandler(IBluetoothDiscoverHandler handler) {
+        discoverHandlers.add(handler);
+    }
+
+    public void addPairHandler(IBluetoothPairHandler handler) {
+        pairHandlers.add(handler);
+    }
+
+    public void removeMessageHandler(IBluetoothMessageHandler handler) {
+        messageHandlers.remove(handler);
+    }
+
+    public void removeDiscoverhandler(IBluetoothDiscoverHandler handler) {
+        discoverHandlers.remove(handler);
+    }
+
+    public void removePairHandler(IBluetoothPairHandler handler) {
+        pairHandlers.remove(handler);
     }
 }
