@@ -78,6 +78,7 @@ public class Bluetooth {
     }
 
     public void startListening() {
-        messageListener = new BluetoothMessageListener(bluetoothAdapter);
+        messageListener = new BluetoothMessageListener()
+        new Thread(messageListener).start();
     }
 }
