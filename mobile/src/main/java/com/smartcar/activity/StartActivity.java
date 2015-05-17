@@ -10,9 +10,9 @@ import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HueShiftImageView;
 import com.smartcar.core.MessageId;
-import com.smartcar.core.MobileActivity;
+import com.smartcar.core.SmartCarActivity;
 
-public class StartActivity extends MobileActivity {
+public class StartActivity extends SmartCarActivity {
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -37,8 +37,6 @@ public class StartActivity extends MobileActivity {
                             startActivity(DashboardActivity.class);
                         } else {
                             startActivity(DiscoverActivity.class);
-                            sendMessage(MessageId.OPEN_CALIBRATION);
-                            sendMessage(MessageId.START_CALIBRATION_SERVICE);
                         }
                     }
                 });
@@ -73,15 +71,6 @@ public class StartActivity extends MobileActivity {
     @Override
     protected int getContentViewId() {
         return R.layout.start_activity;
-    }
-
-    @Override
-    protected void onMessageReceived(MessageId id, String message) {
-        switch (id) {
-            case STORED_CALIBRATION_POSITION: {
-                setNextPositionEnabled(this, true);
-            }
-        }
     }
 
     protected void updateConnectionStatus(boolean status) {
