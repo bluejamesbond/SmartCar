@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import com.orm.SugarRecord;
 import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
-import com.orm.SugarRecord;
 
 import java.util.ArrayList;
 import java.util.Date;

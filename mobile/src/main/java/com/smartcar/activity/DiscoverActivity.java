@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.smartcar.R;
-import com.smartcar.core.MobileActivity;
 import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HoloCircularProgressBar;
 import com.smartcar.common.view.HueShiftImageView;
 import com.smartcar.core.MessageId;
+import com.smartcar.core.MobileActivity;
 
 public class DiscoverActivity extends MobileActivity {
 
@@ -26,7 +26,7 @@ public class DiscoverActivity extends MobileActivity {
         reset();
     }
 
-    public void reset(){
+    public void reset() {
 
         storedSteps = 0;
 

@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.smartcar.R;
-import com.smartcar.core.MobileActivity;
 import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HueShiftImageView;
 import com.smartcar.core.MessageId;
+import com.smartcar.core.MobileActivity;
 
 public class StartActivity extends MobileActivity {
 

@@ -6,9 +6,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.smartcar.common.bluetooth.IBluetoothMessageHandler;
 import com.smartcar.core.MessageId;
 
-public abstract class ListenerService extends Service implements IMessageHandler {
+public abstract class ListenerService extends Service implements IBluetoothMessageHandler {
 
     private Handler mHandler;
 
@@ -34,19 +35,19 @@ public abstract class ListenerService extends Service implements IMessageHandler
 
     @Override
     public void onMessage(int id, String message) {
-            int separator = message.indexOf('|');
-            final MessageId mid = MessageId.valueOf(message.substring(0, separator));
-            final String msg = message.substring(separator + 1);
+        int separator = message.indexOf('|');
+        final MessageId mid = MessageId.valueOf(message.substring(0, separator));
+        final String msg = message.substring(separator + 1);
 
-            // send to all the open applications
-            Intent messageIntent = new Intent();
+        // send to all the open applications
+        Intent messageIntent = new Intent();
         messageIntent.setAction(Intent.ACTION_SEND);
-            messageIntent.putExtra("id", mid.name());
-            messageIntent.putExtra("message", msg);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
+        messageIntent.putExtra("id", mid.name());
+        messageIntent.putExtra("message", msg);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
 
-            // send to the service
-            handleMessage(mid, msg);
+        // send to the service
+        handleMessage(mid, msg);
     }
 
     protected void sendMessage(MessageId id) {

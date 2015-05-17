@@ -7,15 +7,14 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.smartcar.shared.R;
 import com.smartcar.common.SocketActivity;
 import com.smartcar.common.Utils;
+import com.smartcar.shared.R;
 
 import java.util.ArrayList;
 import java.util.List;

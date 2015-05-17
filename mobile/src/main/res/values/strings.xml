@@ -12,21 +12,21 @@
     <string name="wear_connected">android wear connected</string>
     <string name="wear_disconnected">android ear disconnected</string>
 
-        <string name="app_name">HabitKick</string>
-        <string name="app_name_first">Habit</string>
-        <string name="app_name_second">Kick</string>
+    <string name="app_name">HabitKick</string>
+    <string name="app_name_first">Habit</string>
+    <string name="app_name_second">Kick</string>
 
-        <!-- icons -->
-        <string name="icon_menu"></string>
-        <string name="icon_left">◀</string>
-        <string name="icon_right">▶</string>
-        <string name="icon_lasttime"></string>
-        <string name="icon_home"></string>
-        <string name="icon_pause"></string>
-        <string name="icon_silent"></string>
-        <string name="icon_calibrate"></string>
-        <string name="icon_info"></string>
-        <string name="icon_mobile"></string>
-        <string name="icon_logo"></string>
+    <!-- icons -->
+    <string name="icon_menu"></string>
+    <string name="icon_left">◀</string>
+    <string name="icon_right">▶</string>
+    <string name="icon_lasttime"></string>
+    <string name="icon_home"></string>
+    <string name="icon_pause"></string>
+    <string name="icon_silent"></string>
+    <string name="icon_calibrate"></string>
+    <string name="icon_info"></string>
+    <string name="icon_mobile"></string>
+    <string name="icon_logo"></string>
 
 </resources>

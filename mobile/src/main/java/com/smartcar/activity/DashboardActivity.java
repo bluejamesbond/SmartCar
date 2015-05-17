@@ -9,12 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.smartcar.R;
-import com.smartcar.core.MobileActivity;
-import com.smartcar.core.MonitorLog;
 import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HoloCircularProgressBar;
 import com.smartcar.core.MessageId;
+import com.smartcar.core.MobileActivity;
+import com.smartcar.core.MonitorLog;
 
 import java.util.Iterator;
 
@@ -38,7 +38,7 @@ public class DashboardActivity extends MobileActivity {
             }
         });
 
-        final EditText editText = ((EditText)findViewById(R.id.goal_value));
+        final EditText editText = ((EditText) findViewById(R.id.goal_value));
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,7 +141,7 @@ public class DashboardActivity extends MobileActivity {
     public void setProgress(int alerts, int goal) {
         String alertStr = Integer.toString(alerts);
         TextView progressText = (TextView) findViewById(R.id.progress_value);
-        progressText.setTextSize(TypedValue.COMPLEX_UNIT_SP, new int []{ 90, 90, 85, 60, 55, 45 }[alertStr.length()]);
+        progressText.setTextSize(TypedValue.COMPLEX_UNIT_SP, new int[]{90, 90, 85, 60, 55, 45}[alertStr.length()]);
         progressText.setText(Integer.toString(alerts));
         ((HoloCircularProgressBar) findViewById(R.id.progress)).setProgress((float) alerts / (float) goal);
     }
