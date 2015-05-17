@@ -17,11 +17,6 @@ public class MobileListenerService extends ListenerService {
                 startActivity(intent);
                 break;
             }
-            case MONITOR_ALERT: {
-                MonitorLog monitorLog = MonitorLog.getRecent(this);
-                monitorLog.incrementAlerts();
-                monitorLog.save();
-            }
         }
     }
 }

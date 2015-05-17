@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.smartcar.common.SocketActivity;
 import com.smartcar.common.Utils;
-import com.smartcar.shared.R;
+import com.smartcar.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,22 +14,13 @@ import com.smartcar.core.MobileActivity;
 
 public class DiscoverActivity extends MobileActivity {
 
-    private static final int maxSteps = 40;
-    private static final int incrementSteps = 10;
-    private int storedSteps;
-    private Object timeout;
-
     @Override
     protected void onResume() {
         super.onResume();
-
         reset();
     }
 
     public void reset() {
-
-        storedSteps = 0;
-
         _runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -39,41 +30,11 @@ public class DiscoverActivity extends MobileActivity {
                 ((TextView) findViewById(R.id.progress_value)).setText(Integer.toString(0));
             }
         });
-
     }
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
-        reset();
-
-        _runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.calibrate_next_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (storedSteps >= maxSteps) {
-                            startActivity(DashboardActivity.class);
-                            sendMessage(MessageId.OPEN_HOME_ACTIVITY);
-                        } else {
-                            sendMessage(MessageId.NEXT_CALIBRATION_POSITION);
-                            setNextPositionEnabled(false);
-
-                            timeout = Utils.setTimeout(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showToast("Are you sure your watch is connected?");
-                                    setNextPositionEnabled(true);
-                                }
-                            }, 5000);
-
-                        }
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -92,7 +53,7 @@ public class DiscoverActivity extends MobileActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.calibrate_activity;
+        return R.layout.discover_activity;
     }
 
     @Override
@@ -102,36 +63,8 @@ public class DiscoverActivity extends MobileActivity {
             case FINISHED_CALIBRATION_SERVICE:
             case STORED_CALIBRATION_POSITION: {
 
-                Utils.clearTimout(timeout);
-
-                storedSteps += incrementSteps;
-
-                // update progress
-                ((HoloCircularProgressBar) findViewById(R.id.progress)).setProgress((float) storedSteps / (float) maxSteps);
-                ((TextView) findViewById(R.id.progress_value)).setText(Integer.toString(storedSteps));
-
-                if (storedSteps >= maxSteps) {
-
-                    // store that a calibration is complete
-                    Utils.putStore(DiscoverActivity.this, Global.CALIBRATED_FLAG_STORE_KEY, true);
-
-                    // change button text on done
-                    ((TextView) findViewById(R.id.calibrate_next_button_left)).setText("view");
-                    ((TextView) findViewById(R.id.calibrate_next_button_right)).setText("dashboard");
-                }
-
-                // enable the button
-                setNextPositionEnabled(true);
-
                 break;
             }
         }
-    }
-
-    public void setNextPositionEnabled(final boolean enable) {
-        View calibrateButton = findViewById(R.id.calibrate_next_button);
-        calibrateButton.setEnabled(enable);
-
-        findViewById(R.id.calibrate_next_button_right).setAlpha(enable ? 1.0f : 0.7f);
     }
 }
