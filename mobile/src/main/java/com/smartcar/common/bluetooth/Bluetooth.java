@@ -38,6 +38,22 @@ public class Bluetooth {
         }, new IntentFilter(BluetoothDevice.ACTION_FOUND));
     }
 
+    public IBluetoothDiscoverHandler getDiscoverHandler() {
+        return discoverHandler;
+    }
+
+    public void setDiscoverHandler(IBluetoothDiscoverHandler discoverHandler) {
+        this.discoverHandler = discoverHandler;
+    }
+
+    public BluetoothMessageListener getMessageListener() {
+        return messageListener;
+    }
+
+    public void setMessageListener(BluetoothMessageListener messageListener) {
+        this.messageListener = messageListener;
+    }
+
     public boolean isEnabled() {
         return bluetoothAdapter.isEnabled();
     }
