@@ -3,16 +3,16 @@ package com.smartcar.common;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.smartcar.common.bluetooth.Bluetooth;
 import com.smartcar.common.bluetooth.IBluetoothDiscoverHandler;
 import com.smartcar.common.bluetooth.IBluetoothMessageHandler;
 import com.smartcar.common.bluetooth.IBluetoothPairHandler;
 import com.smartcar.core.MessageId;
 
-public abstract class ListenerService extends Service implements IBluetoothMessageHandler, IBluetoothDiscoverHandler, IBluetoothPairHandler {
+public abstract class ListenerService extends Service implements IBluetoothMessageHandler, IBluetoothDiscoverHandler, IBluetoothPairHandler, IMessageReceiverHandler {
 
     public ListenerService() {
         super();
@@ -20,17 +20,15 @@ public abstract class ListenerService extends Service implements IBluetoothMessa
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bluetooth.addMessageHandler(this);
-        Bluetooth.addDiscoverhandler(this);
-        Bluetooth.addPairHandler(this);
+        IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
+        MessageReceiver messageReceiver = new MessageReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
-        Bluetooth.removeMessageHandler(this);
-        Bluetooth.removeDiscoverhandler(this);
-        Bluetooth.removePairHandler(this);
         super.onDestroy();
     }
 
@@ -42,6 +40,7 @@ public abstract class ListenerService extends Service implements IBluetoothMessa
 
     @Override
     public void onMessage(String message) {
+        // TODO Optimize
         int separator = message.indexOf('|');
         final MessageId mid = MessageId.valueOf(message.substring(0, separator));
         final String msg = message.substring(separator + 1);
@@ -54,7 +53,7 @@ public abstract class ListenerService extends Service implements IBluetoothMessa
         LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
 
         // send to the service
-        handleMessage(mid, msg);
+        onMessageReceived(mid, msg);
     }
 
     protected void sendMessage(MessageId id) {
@@ -74,8 +73,6 @@ public abstract class ListenerService extends Service implements IBluetoothMessa
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    protected abstract void handleMessage(MessageId id, String msg);
 
     @Override
     public void onDiscoveredDevice(BluetoothDevice device) {

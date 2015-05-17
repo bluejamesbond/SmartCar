@@ -1,18 +1,15 @@
 package com.smartcar.activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.smartcar.R;
-import com.smartcar.common.Global;
-import com.smartcar.common.Utils;
 import com.smartcar.common.view.HoloCircularProgressBar;
 import com.smartcar.common.view.HueShiftImageView;
 import com.smartcar.core.MessageId;
-import com.smartcar.core.MobileActivity;
+import com.smartcar.core.SmartCarActivity;
 
-public class DiscoverActivity extends MobileActivity {
+public class DiscoverActivity extends SmartCarActivity {
 
     @Override
     protected void onResume() {
@@ -54,17 +51,5 @@ public class DiscoverActivity extends MobileActivity {
     @Override
     protected int getContentViewId() {
         return R.layout.discover_activity;
-    }
-
-    @Override
-    protected void onMessageReceived(MessageId id, String message) {
-        switch (id) {
-
-            case FINISHED_CALIBRATION_SERVICE:
-            case STORED_CALIBRATION_POSITION: {
-
-                break;
-            }
-        }
     }
 }

@@ -1,25 +1,17 @@
 package com.smartcar.common;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
-import com.smartcar.common.bluetooth.Bluetooth;
 import com.smartcar.core.MessageId;
 
-public abstract class SocketActivity extends ReferencedActivity {
+public abstract class SocketActivity extends ReferencedActivity implements IMessageReceiverHandler {
 
     public static SocketActivity getActive(Context context) {
         return (SocketActivity) ReferencedActivity.getActive(context);
-    }
-
-    public boolean isConnected() {
-        // TODO update this as necessary
-        return Bluetooth.isEnabled();
     }
 
     @Override
@@ -28,11 +20,16 @@ public abstract class SocketActivity extends ReferencedActivity {
     }
 
     public void sendMessage(MessageId messageId) {
-        Bluetooth.sendMessage(messageId + "|");
+        sendMessage(messageId, "");
     }
 
-    public void sendMessage(MessageId messageId, String message) {
-        Bluetooth.sendMessage(messageId + "|" + message);
+    public void sendMessage(MessageId mid, String msg) {
+        // send to all the open applications
+        Intent messageIntent = new Intent();
+        messageIntent.setAction(Intent.ACTION_SEND);
+        messageIntent.putExtra("id", mid.name());
+        messageIntent.putExtra("message", msg);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
     }
 
     @Override
@@ -40,26 +37,11 @@ public abstract class SocketActivity extends ReferencedActivity {
         super.onCreate(savedInstanceState);
 
         IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
-        MessageReceiver messageReceiver = new MessageReceiver();
+        MessageReceiver messageReceiver = new MessageReceiver(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
 
         setContentView(getContentViewId());
     }
 
     protected abstract int getContentViewId();
-
-    @SuppressWarnings("unused")
-    protected void onMessageReceived(MessageId id, String message) {
-    }
-
-
-    private class MessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            MessageId id = MessageId.valueOf(intent.getStringExtra("id"));
-            String message = intent.getStringExtra("message");
-            onMessageReceived(id, message);
-            Toast.makeText(context, id + (message.length() == 0 ? "" : ": " + message), Toast.LENGTH_SHORT).show();
-        }
-    }
 }

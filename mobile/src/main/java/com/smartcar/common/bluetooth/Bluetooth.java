@@ -68,7 +68,7 @@ public class Bluetooth {
         return bluetoothAdapter.isEnabled();
     }
 
-    public void startDiscovering(final IBluetoothDiscoverHandler discoverHandler) {
+    public void startDiscovering() {
         if(discoverThread == null) {
             discoverThread = new Thread(new Runnable() {
                 @Override

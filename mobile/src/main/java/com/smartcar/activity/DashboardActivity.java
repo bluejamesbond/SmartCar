@@ -13,12 +13,12 @@ import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HoloCircularProgressBar;
 import com.smartcar.core.MessageId;
-import com.smartcar.core.MobileActivity;
+import com.smartcar.core.SmartCarActivity;
 import com.smartcar.core.MonitorLog;
 
 import java.util.Iterator;
 
-public class DashboardActivity extends MobileActivity {
+public class DashboardActivity extends SmartCarActivity {
 
     private Object lastGoalInput;
 

@@ -6,6 +6,7 @@ package com.smartcar.common;
 public class Global {
 
     public static final String CALIBRATED_FLAG_STORE_KEY = "calibrated";
+    public static final String BLUETOOTH_REMOVE_ADDRESS_KEY = "bluekey";
     public static final String GOAL_COUNT_STORE_KEY = "goal";
     public static final int DEFAULT_GOAL_COUNT = 500;
 
