@@ -10,8 +10,11 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.smartcar.common.ListenerService;
+import com.smartcar.core.MessageId;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
@@ -26,6 +29,7 @@ public class Bluetooth {
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothMessageListener messageListener;
     private Thread discoverThread;
+    private Runnable dataTransferThread;
     private Set<IBluetoothDiscoverHandler> discoverHandlers;
     private Set<IBluetoothMessageHandler> messageHandlers;
     private Set<IBluetoothPairHandler> pairHandlers;
@@ -103,13 +107,52 @@ public class Bluetooth {
     }
 
     public void startListening(BluetoothDevice device) {
-        try {
-            BluetoothSocket socket;
-            socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-            socket.connect();
-            messageListener = new BluetoothMessageListener(socket);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // TODO Clean up
+        BluetoothSocket socket;
+        final InputStream in;
+        final OutputStream out;
+        if ((socket = connect(device)) != null) {
+            try {
+                in = socket.getInputStream();
+                out = socket.getOutputStream();
+                dataTransferThread = new Runnable() {
+                    @Override
+                    public void run() {
+                        byte[] buffer = new byte[256];
+
+                        while (true) {
+                            try {
+                                if (in.read() > 0) {
+                                    in.read(buffer);
+                                    String data = buffer.toString();
+                                    // broadcast this data as received message with ID RECEIVED_DATA
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    public void sendMessage(MessageId id, String msg) {
+                        try {
+                            out.write((id + "|" + msg).getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void sendMessage(MessageId id) {
+                        try {
+                            out.write(id.toString().getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                new Thread(dataTransferThread).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -136,4 +179,25 @@ public class Bluetooth {
     public void removePairHandler(IBluetoothPairHandler handler) {
         pairHandlers.remove(handler);
     }
+
+    public BluetoothSocket connect(BluetoothDevice device) {
+        BluetoothSocket socket = null;
+        try {
+            socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+            socket.connect();
+            messageListener = new BluetoothMessageListener(socket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return socket;
+    }
+
+    public BluetoothDevice getDeviceFromAddress(String msg) {
+        return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(msg);
+    }
+
+    public void sendMessage(MessageId id, String msg) {
+
+    }
+
 }
