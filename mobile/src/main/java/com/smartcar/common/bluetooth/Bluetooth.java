@@ -167,7 +167,7 @@ public class Bluetooth implements Runnable {
                     lock.unlock();
                 }
             }
-        });
+        }).start();
     }
 
     public void disconnect() {
