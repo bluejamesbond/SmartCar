@@ -25,8 +25,6 @@ public class Bluetooth {
 
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothMessageListener messageListener;
-    //private IBluetoothDiscoverHandler discoverHandler;
-    //private IBluetoothPairHandler pairHandler;
     private Thread discoverThread;
     private Set<IBluetoothDiscoverHandler> discoverHandlers;
     private Set<IBluetoothMessageHandler> messageHandlers;
@@ -43,13 +41,17 @@ public class Bluetooth {
                 String action = intent.getAction();
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (discoverHandler != null) {
-                        discoverHandler.onDiscoveredDevice(device);
+                    if (discoverHandlers != null) {
+                        for (IBluetoothDiscoverHandler handler : discoverHandlers) {
+                            handler.onDiscoveredDevice(device);
+                        }
                     }
                 } else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (pairHandler != null) {
-                        pairHandler.onPairedDevice(device);
+                    if (pairHandlers != null) {
+                        for (IBluetoothPairHandler handler : pairHandlers) {
+                            handler.onPairedDevice(device);
+                        }
                     }
                 }
             }
@@ -127,7 +129,7 @@ public class Bluetooth {
         messageHandlers.remove(handler);
     }
 
-    public void removeDiscoverhandler(IBluetoothDiscoverHandler handler) {
+    public void removeDiscoverHandler(IBluetoothDiscoverHandler handler) {
         discoverHandlers.remove(handler);
     }
 
