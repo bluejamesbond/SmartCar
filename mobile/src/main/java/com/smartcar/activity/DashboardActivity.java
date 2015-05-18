@@ -90,15 +90,6 @@ public class DashboardActivity extends SmartCarActivity {
         return R.layout.dashboard_activity;
     }
 
-    @Override
-    protected void onMessageReceived(MessageId id, String message) {
-        switch (id) {
-            case MONITOR_ALERT:
-                setProgress(MonitorLog.getRecent(this).getAlerts(), getGoal());
-                break;
-        }
-    }
-
     public void updateGoal() {
         ((TextView) findViewById(R.id.goal_value)).setText(Integer.toString(getGoal()));
     }
@@ -148,5 +139,10 @@ public class DashboardActivity extends SmartCarActivity {
 
     public void setAverage(int avg) {
         ((TextView) findViewById(R.id.goal_value)).setText(Integer.toString(avg));
+    }
+
+    @Override
+    public void onMessageReceived(MessageId id, String message) {
+
     }
 }

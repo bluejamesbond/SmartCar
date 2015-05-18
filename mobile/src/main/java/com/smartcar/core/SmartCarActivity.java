@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.smartcar.R;
+
 public abstract class SmartCarActivity extends UIXActivity {
 
     protected void startActivity(Class act) {

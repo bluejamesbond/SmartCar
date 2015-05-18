@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.smartcar.R;
 import com.smartcar.common.SocketActivity;
 import com.smartcar.common.Utils;
 

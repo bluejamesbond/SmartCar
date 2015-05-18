@@ -4,4 +4,5 @@
     <color name="app__background_centercolor">#3b5260</color>
     <color name="app__background_endcolor">#2b2356</color>
     <color name="universal__appcolor">#12cae0</color>
+    <color name="dark_grey">#282828</color>
 </resources>

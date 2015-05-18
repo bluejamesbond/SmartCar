@@ -14,6 +14,8 @@ import com.smartcar.core.SmartCarActivity;
 
 public class StartActivity extends SmartCarActivity {
 
+    Object res;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -47,6 +49,7 @@ public class StartActivity extends SmartCarActivity {
     @Override
     protected void onThemeChange(final int appColor, final float hue) {
         super.onThemeChange(appColor, hue);
+
         _runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -58,26 +61,20 @@ public class StartActivity extends SmartCarActivity {
     }
 
     @Override
-    protected void onConnectionChange(final boolean connected) {
-        super.onConnectionChange(connected);
-        _runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateConnectionStatus(connected);
-            }
-        });
-    }
-
-    @Override
     protected int getContentViewId() {
         return R.layout.start_activity;
     }
 
     protected void updateConnectionStatus(boolean status) {
-        ((TextView) findViewById(R.id.connection_status)).setText(getResources().getText(status ? R.string.wear_connected : R.string.wear_disconnected));
+        ((TextView) findViewById(R.id.connection_status)).setText(getResources().getText(status ? R.string.ble_connected : R.string.ble_disconnected));
     }
 
     public void setNextPositionEnabled(final Activity activity, final boolean enable) {
         //    activity.findViewById(R.id.calibrate_next_button).setEnabled(enable)
+    }
+
+    @Override
+    public void onMessageReceived(MessageId id, String message) {
+
     }
 }
