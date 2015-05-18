@@ -128,13 +128,9 @@ public class Bluetooth implements Runnable {
 
             if (listenerThread != null) {
                 listenerThread.interrupt();
-                lock = new ReentrantLock();
             }
 
-            if (lock == null) {
-                lock = new ReentrantLock();
-            }
-
+            lock = new ReentrantLock();
             listenerThread = new Thread(this);
             listenerThread.start();
         } catch (IOException e) {
