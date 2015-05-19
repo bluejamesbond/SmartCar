@@ -3,26 +3,15 @@
     package="com.smartcar"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <application
         android:name=".common.ReferencedApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar">
-
-        <meta-data
-            android:name="DATABASE"
-            android:value="habitkick.db"/>
-        <meta-data
-            android:name="VERSION"
-            android:value="2"/>
-        <meta-data
-            android:name="QUERY_LOG"
-            android:value="true"/>
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.habitkick"/>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
@@ -46,7 +35,7 @@
             android:launchMode="singleInstance"/>
 
         <service
-            android:name=".service.SmartCarListenerService"
+            android:name=".service.SmartCarBackgroundService"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER"/>

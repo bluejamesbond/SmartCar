@@ -67,7 +67,7 @@
         android:padding="20dp">
 
         <LinearLayout
-            android:id="@+id/calibrate_button"
+            android:id="@+id/discover_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/big_button__background"

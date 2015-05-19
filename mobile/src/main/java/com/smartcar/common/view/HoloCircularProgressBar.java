@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 
-import com.smartcar.shared.R;
+import com.smartcar.R;
 
 /**
  * HoloCircularProgressBar custom view.

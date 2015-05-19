@@ -86,7 +86,7 @@ public class Bluetooth implements Runnable {
 
     }
 
-    public void cancelDiscovery() {
+    public void cancelDiscovering() {
         if (discoverThread != null) {
             discoverThread.interrupt();
             discoverThread = null;
@@ -139,7 +139,7 @@ public class Bluetooth implements Runnable {
     }
 
     public BluetoothDevice getDeviceFromAddress(String msg) {
-        return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(msg);
+        return bluetoothAdapter.getRemoteDevice(msg);
     }
 
     public void sendMessage(final MessageId id, final String msg) {
@@ -176,7 +176,7 @@ public class Bluetooth implements Runnable {
             listenerThread = null;
         }
 
-        cancelDiscovery();
+        cancelDiscovering();
     }
 
     @Override

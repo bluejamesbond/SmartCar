@@ -9,14 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.smartcar.R;
-import com.smartcar.common.Global;
 import com.smartcar.common.Utils;
 import com.smartcar.common.view.HoloCircularProgressBar;
 import com.smartcar.core.MessageId;
 import com.smartcar.core.SmartCarActivity;
-import com.smartcar.core.MonitorLog;
-
-import java.util.Iterator;
 
 public class DashboardActivity extends SmartCarActivity {
 
@@ -26,7 +22,7 @@ public class DashboardActivity extends SmartCarActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        final int alerts = MonitorLog.getRecent(this).getAlerts();
+        final int alerts = 0;
 
         updateAverage();
         updateGoal();
@@ -55,10 +51,9 @@ public class DashboardActivity extends SmartCarActivity {
                 lastGoalInput = Utils.setTimeout(new Runnable() {
                     @Override
                     public void run() {
-                        int alerts = MonitorLog.getRecent(DashboardActivity.this).getAlerts();
-                        int goal = Math.abs(Integer.parseInt(editText.getText().toString()));
-                        setProgress(alerts, goal);
-                        Utils.getStore(DashboardActivity.this, Global.GOAL_COUNT_STORE_KEY, goal);
+             //           int alerts = MonitorLog.getRecent(DashboardActivity.this).getAlerts();
+            //            int goal = Math.abs(Integer.parseInt(editText.getText().toString()));
+                        setProgress(0, 0);
                     }
                 }, 1000);
             }
@@ -95,7 +90,7 @@ public class DashboardActivity extends SmartCarActivity {
     }
 
     public int getGoal() {
-        return Utils.getStore(this, Global.GOAL_COUNT_STORE_KEY, Global.DEFAULT_GOAL_COUNT);
+        return /*Utils.getStore(this, Global.GOAL_COUNT_STORE_KEY, Global.DEFAULT_GOAL_COUNT)*/ 0;
     }
 
     public int updateAverage() {
@@ -103,20 +98,22 @@ public class DashboardActivity extends SmartCarActivity {
 
             @Override
             protected Integer doInBackground(Void... params) {
-                Integer total = 0;
-                Integer count = 0;
-                Iterator<MonitorLog> habitLogList = MonitorLog.findAll(MonitorLog.class);
+//                Integer total = 0;
+//                Integer count = 0;
+//                Iterator<MonitorLog> habitLogList = MonitorLog.findAll(MonitorLog.class);
+//
+//                while (habitLogList.hasNext()) {
+//                    total += habitLogList.next().getAlerts();
+//                    count++;
+//                }
+//
+//                try {
+//                    return total / count;
+//                } catch (ArithmeticException e) {
+//                    return 0;
+//                }
 
-                while (habitLogList.hasNext()) {
-                    total += habitLogList.next().getAlerts();
-                    count++;
-                }
-
-                try {
-                    return total / count;
-                } catch (ArithmeticException e) {
-                    return 0;
-                }
+                return 0;
             }
 
             @Override

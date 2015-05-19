@@ -8,6 +8,7 @@ import com.smartcar.R;
 
 public abstract class SmartCarActivity extends UIXActivity {
 
+    @SuppressWarnings("unused")
     protected void startActivity(Class act) {
         startActivity(new Intent(this, act));
         finish();

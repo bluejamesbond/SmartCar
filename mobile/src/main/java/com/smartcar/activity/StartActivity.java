@@ -1,6 +1,6 @@
 package com.smartcar.activity;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,39 +11,24 @@ import com.smartcar.common.Utils;
 import com.smartcar.common.view.HueShiftImageView;
 import com.smartcar.core.MessageId;
 import com.smartcar.core.SmartCarActivity;
+import com.smartcar.service.SmartCarBackgroundService;
 
 public class StartActivity extends SmartCarActivity {
-
-    Object res;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        if (Utils.getStore(this, Global.GOAL_COUNT_STORE_KEY, -1) < 0) {
-            Utils.putStore(this, Global.GOAL_COUNT_STORE_KEY, Global.DEFAULT_GOAL_COUNT);
-        }
-
-        _runOnUiThread(new Runnable() {
+        StartActivity.this.findViewById(R.id.discover_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                findViewById(R.id.calibrate_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (Global.DEBUG) {
-                            Utils.putStore(StartActivity.this, Global.CALIBRATED_FLAG_STORE_KEY, false);
-                        }
-
-                        if (Utils.getStore(StartActivity.this, Global.CALIBRATED_FLAG_STORE_KEY, false)) {
-                            startActivity(DashboardActivity.class);
-                        } else {
-                            startActivity(DiscoverActivity.class);
-                        }
-                    }
-                });
+            public void onClick(View v) {
+                if (Global.DEBUG) {
+                    Utils.putStore(StartActivity.this, Global.DISCOVERED_FLAG_STORE_KEY, false);
+                }
             }
         });
+
+        startService(new Intent(this, SmartCarBackgroundService.class));
     }
 
     @Override
@@ -53,9 +38,9 @@ public class StartActivity extends SmartCarActivity {
         _runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView) findViewById(R.id.tagline)).setTextColor(appColor);
-                ((HueShiftImageView) findViewById(R.id.logo)).shiftHue(hue);
-                findViewById(R.id.calibrate_button).setBackground(createBigButtonStateList(appColor));
+                ((TextView) StartActivity.this.findViewById(R.id.tagline)).setTextColor(appColor);
+                ((HueShiftImageView) StartActivity.this.findViewById(R.id.logo)).shiftHue(hue);
+                StartActivity.this.findViewById(R.id.discover_button).setBackground(StartActivity.this.createBigButtonStateList(appColor));
             }
         });
     }
@@ -65,16 +50,44 @@ public class StartActivity extends SmartCarActivity {
         return R.layout.start_activity;
     }
 
-    protected void updateConnectionStatus(boolean status) {
-        ((TextView) findViewById(R.id.connection_status)).setText(getResources().getText(status ? R.string.ble_connected : R.string.ble_disconnected));
+    protected void updateConnectionStatus(String text) {
+        ((TextView) findViewById(R.id.connection_status)).setText(text);
     }
 
-    public void setNextPositionEnabled(final Activity activity, final boolean enable) {
-        //    activity.findViewById(R.id.calibrate_next_button).setEnabled(enable)
+    public void setNextPositionEnabled(final boolean enable) {
+        findViewById(R.id.discover_button).setEnabled(enable);
     }
 
     @Override
-    public void onMessageReceived(MessageId id, String message) {
+    public void onMessageReceived(MessageId id, final String msg) {
+        switch (id) {
+            case BLUETOOTH_STATUS: {
+                _runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setNextPositionEnabled(Boolean.parseBoolean(msg));
+                        updateConnectionStatus(getResources().getString(R.string.ble_connected));
+                    }
+                });
+                break;
+            }
+            case BACKGROUND_SERVICE_STARTED: {
+                _runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // disable the next button
+                        StartActivity.this.setNextPositionEnabled(false);
 
+                        // set text
+                        StartActivity.this.updateConnectionStatus(getResources().getString(R.string.ble_disconnected));
+
+                        // get all the bluetooth devices
+                        StartActivity.this.sendMessage(MessageId.GET_BLUETOOTH_STATUS);
+
+                        showToast("Started StartActivity!");
+                    }
+                });
+            }
+        }
     }
 }
